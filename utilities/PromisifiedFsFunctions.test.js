@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { promisifyReadFile, promisifyReadDir } = require('./PromisifiedFsFunctions');
 
-test('Unit testing for resolved', (done) => {
+test('Unit testing for promisified fs.readFile resolved', (done) => {
   jest
     .spyOn(fs, 'readFile')
     .mockImplementation((file, option, callback) => {
@@ -13,7 +13,7 @@ test('Unit testing for resolved', (done) => {
   });
 });
 
-test('Unit testing for resolved using .resolves', () => {
+test('Unit testing for promisified fs.readFile resolved using .resolves', () => {
   jest
     .spyOn(fs, 'readFile')
     .mockImplementation((file, option, callback) => {
@@ -24,7 +24,7 @@ test('Unit testing for resolved using .resolves', () => {
   );
 });
 
-test('Unit testing for rejected', () => {
+test('Unit testing for promisified fs.readFile rejected', () => {
   jest
     .spyOn(fs, 'readFile')
     .mockImplementation((file, option, callback) => {
@@ -35,7 +35,7 @@ test('Unit testing for rejected', () => {
   );
 });
 
-test('Unit test for promisifying fs.readdir resolved', () => {
+test('Unit test for promisified fs.readdir resolved', () => {
   jest
     .spyOn(fs, 'readdir')
     .mockImplementation((directory, option, callback) => {
@@ -46,7 +46,7 @@ test('Unit test for promisifying fs.readdir resolved', () => {
   );
 });
 
-test('Unit test for promisifying fs.readdir rejected', () => {
+test('Unit test for promisified fs.readdir rejected', () => {
   jest
     .spyOn(fs, 'readdir')
     .mockImplementation((directory, option, callback) => {

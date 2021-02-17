@@ -6,6 +6,6 @@ test('Should split text into array of individual words', () => {
 });
 
 test('Should return only filename without extension', () => {
-  const result = formatFileData.returnOnlyFileName('abc.txt');
-  expect(result).toBe('abc');
+  const result = formatFileData.returnOnlyFileName('abc.test.txt');
+  expect(result).toBe('abc.test');
 });

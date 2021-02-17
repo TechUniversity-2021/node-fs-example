@@ -1,7 +1,7 @@
 const fs = require('fs');
 const fileOPs = require('./AsyncRead.js');
 
-test('Unit testing ', (done) => {
+test('Test for readFile for reolved promise with nmo', (done) => {
   jest.spyOn(fs, 'readFile')
     .mockImplementation((file, option, cb) => cb(null, 'nmo'));
   fileOPs.readData('anyfile').then((data) => {
@@ -10,7 +10,7 @@ test('Unit testing ', (done) => {
   });
 });
 
-test('unit file rfail', (done) => {
+test('Test for readFile for rejected promise with reject', (done) => {
   jest.spyOn(fs, 'readFile')
     .mockImplementation((file, option, cb) => cb(new Error('reject'), null));
 
@@ -18,7 +18,7 @@ test('unit file rfail', (done) => {
   done();
 });
 
-test('Unit testing ', (done) => {
+test('UTest for readDir for reolved promise with nmo', (done) => {
   jest.spyOn(fs, 'readdir')
     .mockImplementation((file, option, cb) => cb(null, 'nmo'));
   fileOPs.readDir('anydir').then((data) => {
@@ -27,7 +27,7 @@ test('Unit testing ', (done) => {
   });
 });
 
-test('unit file rfail', (done) => {
+test('Test for readDir for rejected promise with reject', (done) => {
   jest.spyOn(fs, 'readdir')
     .mockImplementation((file, option, cb) => cb(new Error('reject'), null));
 

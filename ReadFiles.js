@@ -2,6 +2,11 @@ const fileOps = require('./AsyncRead.js');
 
 const getData = async () => {
   const files = await fileOps.readDir('./seed');
+
+  files.forEach(async (file) =>
+  {
+    
+  })
   const fileOneContent = await fileOps.readData(`./seed/${files[0]}`);
   const fileTwoContent = await fileOps.readData(`./seed/${files[1]}`);
   const fileThreeContent = await fileOps.readData(`./seed/${files[2]}`);

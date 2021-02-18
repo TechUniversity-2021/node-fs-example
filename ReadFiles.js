@@ -1,31 +1,36 @@
+const path = require('path');
 const fileOps = require('./AsyncRead.js');
 
-const getData = async () => {
-  const files = await fileOps.readDir('./seed');
+// const obj = {};
+// const getData = async (dirPath) => {
+//   const files = await fileOps.readDir(dirPath);
 
-  files.forEach(async (file) =>
-  {
-    
-  })
-  const fileOneContent = await fileOps.readData(`./seed/${files[0]}`);
-  const fileTwoContent = await fileOps.readData(`./seed/${files[1]}`);
-  const fileThreeContent = await fileOps.readData(`./seed/${files[2]}`);
-  const arr1 = fileOneContent.split('\n');
-  const arr2 = fileTwoContent.split('\n');
-  const arr3 = fileThreeContent.split('\n');
+//   const fileData = files.map(async (file) => {
+//     const content = await fileOps.readData(`./seed/${file}`);
+//     return content;
+//   });
 
-  const obj = {};
-  obj[files[0]] = arr1;
-  obj[files[1]] = arr2;
-  obj[files[2]] = arr3;
+//   const allPromise = await Promise.all(fileData);
+//   return allPromise;
+// };
 
-  return obj;
+// getData('./seed').then((data) => data);
+
+
+const getData = async (directory) => {
+  const finalObject = {};
+  const files = await fileOps.readDir(directory);
+  const noOfFiles = files.length;
+  for (let i = 0; i < noOfFiles; i += 1) {
+    const file = files[i];
+    const content = await fileOps.readData(`${directory}/${file}`);
+    const conArray = content.split('\n');
+    finalObject[file] = conArray;
+  }
+  console.log(finalObject);
+  return finalObject;
 };
-// (async () => {
-//   const secretMessage = await getData();
-//   console.log(secretMessage);
-// })();
-
+getData('./seed');
 module.exports = {
   getData,
 };

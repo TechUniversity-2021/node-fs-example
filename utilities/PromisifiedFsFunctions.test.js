@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { readFile, readDir } = require('./PromisifiedFsFunctions');
+const { readFile, readDir, appendFile } = require('./PromisifiedFsFunctions');
 
 describe('Promisified Read File function', () => {
   it('should resolve with file contents', () => {
@@ -54,6 +54,27 @@ describe('Promisified Read Directory function', () => {
       });
     return expect(readDir('MOCK_DIRECTORY')).rejects.toEqual(
       new Error('Directory not found!'),
+    );
+  });
+});
+describe('Promisified Append File function', () => {
+  it('should append data and resolve with success message', () => {
+    jest
+      .spyOn(fs, 'appendFile')
+      .mockImplementation((file, data, option, callback) => {
+        callback(null);
+      });
+    return expect(appendFile('MOCK_FILE', 'MOCK_DATA')).resolves.toBe('Success');
+  });
+  it('should reject with an error object incase an error occures during appending data', () => {
+    const MOCK_ERROR = new Error('An error occured');
+    jest
+      .spyOn(fs, 'appendFile')
+      .mockImplementation((file, data, option, callback) => {
+        callback(MOCK_ERROR);
+      });
+    return expect(appendFile('MOCK_FILE')).rejects.toEqual(
+      MOCK_ERROR,
     );
   });
 });

@@ -3,10 +3,13 @@ const fileUtil = require('./AsyncRead.js');
 
 const files = fileUtil.readDir('./seed');
 
-const content = fileOps.getData('./seed');
+// const content = await fileOps.getData('./seed');
+// console.log(content);
 let fileNo = 0;
 
-const formatData = () => {
+const formatData = async () => {
+  const content = await fileOps.getData('./seed');
+  // console.log(content);
   const obj = {};
   for (let i = 0; i < content.length; i++) {
     const data = content[i].split('\n');
@@ -14,6 +17,6 @@ const formatData = () => {
     fileNo++;
   }
   console.log(obj);
+  return (obj);
 };
 
-const a=formatData()

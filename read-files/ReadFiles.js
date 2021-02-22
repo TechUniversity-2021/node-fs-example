@@ -1,19 +1,23 @@
-/* eslint-disable no-await-in-loop */
+const path = require('path');
 const fsFunctions = require('../utilities/PromisifiedFsFunctions');
 const formatFunctions = require('../format-file-data/FormatFileData');
 
 const readFiles = async (directory) => {
-  const fileObject = {};
-  const fileArray = await fsFunctions.promisifyReadDir(directory);
-  const NO_OF_FILES = fileArray.length;
-  for (let i = 0; i < NO_OF_FILES; i += 1) {
-    const fileName = fileArray[i];
-    const fileKey = formatFunctions.returnOnlyFileName(fileName);
-    const fileData = await fsFunctions.promisifyReadFile(`${directory}/${fileName}`);
-    const fileValue = formatFunctions.splitIntoArray(fileData);
-    fileObject[fileKey] = fileValue;
+  try {
+    const fileArray = await fsFunctions.readDir(directory);
+    const fileNames = fileArray.map((fileName) => path.parse(fileName).name);
+    const filesData = await Promise.all(fileArray.map((fileName) => fsFunctions.readFile(`${directory}/${fileName}`)));
+    const fileObject = filesData.reduce((accumulator, fileContent, index) => {
+      const fileValue = formatFunctions.splitIntoArray(fileContent);
+      return {
+        ...accumulator,
+        [fileNames[index]]: fileValue,
+      };
+    }, {});
+    return fileObject;
+  } catch (error) {
+    throw new Error('Problem accessing files');
   }
-  return fileObject;
 };
 
 module.exports = {

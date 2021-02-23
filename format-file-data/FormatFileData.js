@@ -1,11 +1,11 @@
-const splitIntoArray = (data) => {
+const splitIntoArray = (data, startingChar) => {
   const splitData = data.split(/\s+/);
+  if (startingChar) {
+    return splitData.filter((word) => word !== '' && word.toLowerCase().startsWith(startingChar.toLowerCase()));
+  }
   return splitData.filter((word) => word !== '');
 };
 
-const returnOnlyFileName = (fileName) => fileName.split('.').slice(0, -1).join('.');
-
 module.exports = {
   splitIntoArray,
-  returnOnlyFileName,
 };

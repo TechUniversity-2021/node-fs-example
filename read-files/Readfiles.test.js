@@ -7,17 +7,17 @@ describe('readFiles function', () => {
   it('should return object with key as filename and value as array of content', async () => {
     const spyOnReadFile = jest.spyOn(fsFunctions, 'readFile');
     const spyOnReadDir = jest.spyOn(fsFunctions, 'readDir');
-    const spyOnsplitIntoArray = jest.spyOn(formatFunctions, 'splitIntoArray');
+    const spyOnSplitIntoArray = jest.spyOn(formatFunctions, 'splitIntoArray');
 
     spyOnReadDir.mockResolvedValue(['MOCK_FILE.txt']);
     spyOnReadFile.mockResolvedValue('hi \nhello');
-    spyOnsplitIntoArray.mockImplementation((data) => ['hi', 'hello']);
+    spyOnSplitIntoArray.mockImplementation((data) => ['hi', 'hello']);
 
     const result = await solution.readFiles('MOCK_DIRECTORY');
 
     expect(spyOnReadDir).toHaveBeenCalledWith('MOCK_DIRECTORY');
     expect(spyOnReadFile).toHaveBeenCalledWith('MOCK_DIRECTORY/MOCK_FILE.txt');
-    expect(spyOnsplitIntoArray).toHaveBeenCalledWith('hi \nhello');
+    expect(spyOnSplitIntoArray).toHaveBeenCalledWith('hi \nhello');
 
     expect(result).toEqual({
       MOCK_FILE: ['hi', 'hello'],
@@ -50,5 +50,24 @@ describe('readFiles function', () => {
     } catch (error) {
       expect(error.message).toBe('Problem accessing files');
     }
+  });
+  it('should return object with key as filename and value as array of words starting with only the provided letter', async () => {
+    const spyOnReadFile = jest.spyOn(fsFunctions, 'readFile');
+    const spyOnReadDir = jest.spyOn(fsFunctions, 'readDir');
+    const spyOnSplitIntoArray = jest.spyOn(formatFunctions, 'splitIntoArray');
+
+    spyOnReadDir.mockResolvedValue(['MOCK_FILE.txt']);
+    spyOnReadFile.mockResolvedValue('hi \nhello\ngood');
+    spyOnSplitIntoArray.mockImplementation((data) => ['hi', 'hello']);
+
+    const result = await solution.readFiles('MOCK_DIRECTORY', 'h');
+
+    expect(spyOnReadDir).toHaveBeenCalledWith('MOCK_DIRECTORY');
+    expect(spyOnReadFile).toHaveBeenCalledWith('MOCK_DIRECTORY/MOCK_FILE.txt');
+    expect(spyOnSplitIntoArray).toHaveBeenCalledWith('hi \nhello');
+
+    expect(result).toEqual({
+      MOCK_FILE: ['hi', 'hello'],
+    });
   });
 });

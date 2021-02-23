@@ -42,8 +42,8 @@ describe('readFiles function', () => {
     const spyOnReadDir = jest.spyOn(fsFunctions, 'readDir');
     const spyOnsplitIntoArray = jest.spyOn(formatFunctions, 'splitIntoArray');
     const MOCK_REJECTED_ERROR = new Error('Error');
-    spyOnReadDir.mockRejectedValue(['MOCK_FILE.txt']);
-    spyOnReadFile.mockResolvedValue(MOCK_REJECTED_ERROR);
+    spyOnReadDir.mockResolvedValue(['MOCK_FILE.txt']);
+    spyOnReadFile.mockRejectedValue(MOCK_REJECTED_ERROR);
     spyOnsplitIntoArray.mockImplementation((data) => ['hi', 'hello']);
     try {
       const result = await solution.readFiles('MOCK_DIRECTORY');

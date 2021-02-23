@@ -6,3 +6,5 @@ brocolli
 
 capsicum
 beetroot
+
+pumpkin

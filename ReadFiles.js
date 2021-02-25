@@ -1,36 +1,28 @@
 const path = require('path');
 const fileOps = require('./AsyncRead.js');
+const fileFilter = require('./filterData.js');
 
-const obj = {};
-const getData = async (directory) => {
-  const files = await fileOps.readDir(directory);
+const readFiles = async (directory, startingChar) => {
+  try {
+    const files = await fileOps.readDir(directory);
+    const fileNames = files.map((fileName) => path.parse(fileName).name);
+    const filesData = await Promise.all(files.map((fileName) => fileOps.readFile(`${directory}/${fileName}`)));
+    const fileObj = {};
+    let i = 0;
+    filesData.forEach((file) => {
+      const fileValue = fileFilter.splitByStartChar(file, startingChar);
+      fileObj[fileNames[i]] = fileValue;
+      i += 1;
+    });
 
-  const fileData = files.map(async (file) => fileOps.readData(`${directory}/${file}`),
-    // const content = await fileOps.readData(`./seed/${file}`);
-    // return content;
-  );
-
-  const allPromise = await Promise.all(fileData);
-  return allPromise;
+    console.log(fileObj);
+    return fileObj;
+  } catch (error) {
+    throw new Error('Problem accessing files');
+  }
 };
 
-getData('./seed').then((data) => data);
-
-// const getData = async (directory) => {
-//   const finalObject = {};
-//   const files = await fileOps.readDir(directory);
-//   const noOfFiles = files.length;
-//   for (let i = 0; i < noOfFiles; i += 1) {
-//     const file = files[i];
-//     const content = await fileOps.readData(`${directory}/${file}`);
-//     const conArray = content.split('\n');
-//     finalObject[file] = conArray;
-//   }
-//   console.log(finalObject);
-//   return finalObject;
-// };
-
-getData('./seed');
+readFiles('./seed', 'k');
 module.exports = {
-  getData,
+  readFiles,
 };

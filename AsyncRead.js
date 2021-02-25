@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const readData = (filePath) => new Promise((resolve, reject) => {
+const readFile = (filePath) => new Promise((resolve, reject) => {
   fs.readFile(filePath, 'utf-8', (err, data) => {
     if (err) {
       reject(err);
@@ -21,4 +21,4 @@ const readDir = (dirPath) => new Promise((resolve, reject) => {
 
 // readDir('./seed').then(console.log);
 
-module.exports = { readData, readDir };
+module.exports = { readFile, readDir };

@@ -18,5 +18,4 @@ const getData = async (dirName) => {
   }
   return result;
 };
-
- //getData('seed').then(console.log)
+module.exports = { getData };
